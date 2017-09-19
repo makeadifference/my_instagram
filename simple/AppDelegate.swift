@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVOSCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // 初始化框架
+        AVOSCloud.setApplicationId("gj7Vw2yODeEcLjQFFo4q2ylJ-gzGzoHsz", clientKey: "wCgDDW5ByxjApCAc1ijk1cFT")
+        // 数据分析
+        AVAnalytics.trackAppOpened(launchOptions: launchOptions)
+        let testObject = AVObject(className: "testObject")
+        testObject.setObject("bar", forKey: "foo")
+        testObject.save()
+        login()
+        // 登录
         return true
     }
 
@@ -39,6 +48,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func login(){
+        let username : String? = UserDefaults.standard.string(forKey: "username")
+        if username != nil {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let TabBarVC = storyBoard.instantiateViewController(withIdentifier: "TabBarVC") as! UITabBarController
+            window?.rootViewController = TabBarVC
+        }
+
+        
     }
 
 
